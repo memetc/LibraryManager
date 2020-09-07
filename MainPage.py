@@ -37,7 +37,7 @@ class MainWin(Tk):
             os.system('%s %s' % (py, 'Remove_student.py'))
 
         def ib():
-            os.system('%s %s' % (py, 'issueTable.py'))
+            os.system('%s %s' % (py, 'BarrowBook.py'))
 
         def ret():
             os.system('%s %s' % (py, 'AddBook.py'))
@@ -65,14 +65,12 @@ class MainWin(Tk):
 
         #creating table
 
-        self.listTree = ttk.Treeview(self,height=14,columns=('TC','Borrower Name','Title','ISBN', 'Author', 'Issue Date', 'Return Date'))
+        self.listTree = ttk.Treeview(self,height=14,columns=('TC','Title','ISBN', 'Author', 'Issue Date', 'Return Date'))
         self.vsb = ttk.Scrollbar(self,orient="vertical",command=self.listTree.yview)
         self.hsb = ttk.Scrollbar(self,orient="horizontal",command=self.listTree.xview)
         self.listTree.configure(yscrollcommand=self.vsb.set,xscrollcommand=self.hsb.set)
         self.listTree.heading("TC", text='TC')
         self.listTree.column("TC", width=100,minwidth=100,anchor='center')
-        self.listTree.heading("Borrower Name", text='Borrower Name')
-        self.listTree.column("Borrower Name", width=200, minwidth=200,anchor='center')
         self.listTree.heading("Title", text='Title')
         self.listTree.column("Title", width=200, minwidth=200,anchor='center')
         self.listTree.heading("ISBN", text='ISBN')
@@ -117,7 +115,7 @@ class MainWin(Tk):
                 if pc:
                    self.listTree.delete(*self.listTree.get_children())
                    for row in pc:
-                       self.listTree.insert("",'end', text=row[1], values=(row[0],row[1], row[2], row[3], row[4], row[5], row[6]))
+                       self.listTree.insert("",'end', text=row[0], values=(row[1], row[2], row[3], row[4], row[5]))
 
 
         def check():

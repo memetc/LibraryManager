@@ -35,7 +35,7 @@ class Lib(Tk):
                 title = self.book_title.get()
                 author = self.author_name.get()
                 ISBN = self.isbn_code.get()
-                cursor.execute("Insert into books(title,author,ISBN,is_borrowed) values (%s,%s,%s, 'No')", (title, author, ISBN))
+                cursor.execute("Insert into books(title,author,ISBN,availability) values (%s,%s,%s, 'Yes')", (title, author, ISBN))
                 conn.commit()
                 self.destroy()
                 conn.close()

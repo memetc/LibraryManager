@@ -15,15 +15,16 @@ class Search(Tk):
         self.minsize(800, 500)
         self.canvas = Canvas(width=800, height=500, bg='gray')
         self.canvas.pack()
-        l1 = Label(self, text="Search Library", bg='gray', font=("Courier new", 20, 'bold')).place(x=290, y=20)
-        l = Label(self, text="Search By", bg='gray', font=("Courier new", 15, 'bold')).place(x=60, y=96)
 
+
+        la = Label(self, text="Enter", bg='gray', font=("Courier new", 15, 'bold')).place(x=100, y=150)
         def insert(data):
             self.listTree.delete(*self.listTree.get_children())
             for row in data:
-                self.listTree.insert("", 'end', text=row )
+                self.listTree.insert("", 'end', text=row[2], values=(row[0],row[1],row[3]) )
 
         def ge():
+            keyword = f.get()
             if (len(g.get())) == 0:
                 messagebox.showinfo('Error', 'First select a item')
             elif (len(f.get())) == 0:
@@ -34,7 +35,7 @@ class Search(Tk):
                                                     user='root',
                                                     password='')
                 self.mycursor = self.conn.cursor()
-                self.mycursor.execute("Select * from book where name LIKE %s",)
+                self.mycursor.execute("Select * from books where title LIKE %s", (keyword,))
                 self.pc = self.mycursor.fetchall()
                 if self.pc:
                     insert(self.pc)
@@ -48,7 +49,7 @@ class Search(Tk):
                                                     user='root',
                                                     password='')
                 self.mycursor = self.conn.cursor()
-                self.mycursor.execute("Select * from book where author LIKE %s")
+                self.mycursor.execute("Select * from books where author LIKE %s", (keyword,))
                 self.pc = self.mycursor.fetchall()
                 if self.pc:
                     insert(self.pc)
@@ -62,19 +63,19 @@ class Search(Tk):
                                                     user='root',
                                                     password='')
                 self.mycursor = self.conn.cursor()
-                self.mycursor.execute("Select * from book where book_id LIKE %s")
+                self.mycursor.execute("Select * from books where ISBN LIKE %s", (keyword,))
                 self.pc = self.mycursor.fetchall()
                 if self.pc:
                     insert(self.pc)
                 else:
                     messagebox.showinfo("Oop's", "Either Book Id is incorrect or it is not available")
 
-        b = Button(self, text="Find", width=15, bg='gray', font=("Courier new", 10, 'bold'), command=ge).place(x=460,
-                                                                                                               y=148)
-        c = ttk.Combobox(self, textvariable=g).place(x = 180, y = 100)
-        en = Entry(self, textvariable=f, width=43).place(x=180, y=155)
-        la = Label(self, text="Enter", bg='gray', font=("Courier new", 15, 'bold')).place(x=100, y=150)
+        l1 = Label(self, text="Search Library", bg='gray', font=("Courier new", 20, 'bold')).place(x=290, y=20)
 
+        b = Button(self, text="Find", width=15, bg='gray', font=("Courier new", 10, 'bold'), command=ge).place(x=460,y=148)
+        en = Entry(self, textvariable=f, width=43).place(x=180, y=155)
+        c=ttk.Combobox(self,textvariable=g,values=("Book Name","Author Name","Book Id"),width=40,state="readonly").place(x=460,y=105)
+        print("GGET: ",g.get())
         def handle(event):
             if self.listTree.identify_region(event.x, event.y) == "separator":
                 return "break"
