@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Search A Book</h2>
+
+<form action="" method="post">
+  <label for="books">Search:</label>
+  <select id="books" name="books">
+        <option value="Book Name">Book Name</option>
+        <option value="Author Name">Author Name</option>
+        <option value="Book Id">ISBN</option>
+  </select>
+    <input type="text" placeholder="Enter Keyword" name="keyword" value="{{request.form.keyword }}">
+    <input type="submit" value="Search">
+</form>
+
+</body>
+</html>

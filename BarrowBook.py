@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import datetime as dt
 from tkinter import *
 from tkinter import messagebox
 import mysql.connector
@@ -39,9 +40,9 @@ class issue(Tk):
                     number_of_books = self.mycursor.callproc('GetBorrowedBooks', (stud, number_of_books))
                     print(number_of_books[1])
 
-                    # if  number_of_books ==  8:
-                    #     messagebox.showinfo('Error', 'You cannot borrow more books')
-                    #     self.destroy()
+                    if  number_of_books[1] ==  8:
+                        messagebox.showinfo('Error', 'You cannot borrow more books')
+                        self.destroy()
 
                     self.mycursor.execute("Select * from books where availability = 'YES' and ISBN = %s",(book,))
                     self.pc = self.mycursor.fetchall()
@@ -49,12 +50,12 @@ class issue(Tk):
                         book_row = self.pc[0]
                         print("success")
                         now = datetime.now()
-                        twoweeks = datetime.timedelta(days=14)
+                        twoweeks = dt.timedelta(days=14)
                         idate = now.strftime('%Y-%m-%d %H:%M:%S')
-                        rdate = idate + twoweeks
+                        rdate = now.strptime(idate, '%Y-%m-%d %H:%M:%S') + twoweeks
                         self.mycursor.execute("Insert into borrowed_books(TC, title, ISBN, author, issue_date, return_date) values (%s,%s,%s,%s,%s,%s)",(stud,book_row[0],book_row[2], book_row[1], idate, rdate))
                         self.conn.commit()
-                        self.mycursor.execute("Update books set availability = 'NO' where book_id = %s", (book,))
+                        self.mycursor.execute("Update books set availability = 'NO' where ISBN = %s", (book,))
                         self.conn.commit()
                         messagebox.showinfo("Success", "Successfully Issue!")
                         print("books borrowed: ", int(self.mycursor.callproc('GetBorrowedBooks', (stud,))))

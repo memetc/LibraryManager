@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>table, th, td {
+  border: 1px solid black;
+}</style>
+<table>
+    <thead>
+            <tr>
+                <th colspan="1">TC</th>
+                <th colspan="1">Title</th>
+                <th colspan="1">ISBN</th>
+                <th colspan="1">Author</th>
+                <th colspan="1">Issue Date</th>
+                <th colspan="1">Return Date</th>
+
+            </tr>
+        </thead>
+    {% for item in data %}
+    <tbody>
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+            <td>{{item[5]}}</td>
+            <br>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+</html>
